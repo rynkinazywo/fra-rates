@@ -143,53 +143,20 @@ async function generateCharts() {
             data: lineData,
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: false,
-                        title: { 
-                            display: true, 
-                            text: 'Stawka (%)', 
-                            color: '#d32f2f', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 12 : 16 
-                            }
-                        },
+                        title: { display: true, text: 'Stawka (%)', color: '#d32f2f', font: { size: 16 } },
                         grid: { color: '#ddd' },
-                        ticks: { 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
+                        ticks: { font: { size: 14 } }
                     },
                     x: {
-                        title: { 
-                            display: true, 
-                            text: 'Okres FRA', 
-                            color: '#d32f2f', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 12 : 16 
-                            }
-                        },
+                        title: { display: true, text: 'Okres FRA', color: '#d32f2f', font: { size: 16 } },
                         grid: { color: '#ddd' },
-                        ticks: { 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
+                        ticks: { font: { size: 14 } }
                     }
                 },
-                plugins: { 
-                    legend: { 
-                        display: true, 
-                        labels: { 
-                            color: '#333', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
-                    }
-                }
+                plugins: { legend: { display: true, labels: { color: '#333', font: { size: 14 } } } }
             }
         };
 
@@ -219,53 +186,20 @@ async function generateCharts() {
             data: barData,
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true,
-                        title: { 
-                            display: true, 
-                            text: 'Różnica (punkty procentowe)', 
-                            color: '#d32f2f', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 12 : 16 
-                            }
-                        },
+                        title: { display: true, text: 'Różnica (punkty procentowe)', color: '#d32f2f', font: { size: 16 } },
                         grid: { color: '#ddd' },
-                        ticks: { 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
+                        ticks: { font: { size: 14 } }
                     },
                     x: {
-                        title: { 
-                            display: true, 
-                            text: 'Okres FRA', 
-                            color: '#d32f2f', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 12 : 16 
-                            }
-                        },
+                        title: { display: true, text: 'Okres FRA', color: '#d32f2f', font: { size: 16 } },
                         grid: { color: '#ddd' },
-                        ticks: { 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
+                        ticks: { font: { size: 14 } }
                     }
                 },
-                plugins: { 
-                    legend: { 
-                        display: true, 
-                        labels: { 
-                            color: '#333', 
-                            font: { 
-                                size: window.innerWidth <= 768 ? 10 : 14 
-                            }
-                        }
-                    }
-                }
+                plugins: { legend: { display: true, labels: { color: '#333', font: { size: 14 } } } }
             }
         };
 
@@ -388,33 +322,22 @@ function drawFraChart() {
     maxDate.setMonth(today.getMonth() + 12);
     maxDate.setDate(1);
 
-    // Dynamiczne ustawienie szerokości i wysokości wykresu
-    const containerWidth = document.querySelector('.chart-container').clientWidth;
-    const chartWidth = Math.min(containerWidth - 40, 1000); // Maksymalna szerokość 1000px
-    const chartHeight = window.innerWidth <= 768 ? 300 : 600; // Mniejsza wysokość na urządzeniach mobilnych
-
-    const xScaleRange = chartWidth - 150; // Odejmujemy marginesy
-
     const xScale = d3.scaleTime()
         .domain([minDate, maxDate])
-        .range([0, xScaleRange]);
+        .range([0, 850]);
 
     const scenarios = Object.keys(probabilityData).flatMap(term => probabilityData[term].map(p => p.scenario));
     const uniqueScenarios = [...new Set(scenarios)].sort((a, b) => parseFloat(b) - parseFloat(a));
     const yScale = d3.scaleBand()
         .domain(uniqueScenarios)
-        .range([0, chartHeight - 100]) // Odejmujemy miejsce na osie
+        .range([0, 500])
         .padding(0.1);
 
     const svg = d3.select("#fraChart");
     svg.selectAll("*").remove();
 
-    // Ustawienie dynamicznych wymiarów SVG
-    svg.attr("width", chartWidth)
-       .attr("height", chartHeight);
-
     svg.append("g")
-        .attr("transform", `translate(100, ${chartHeight - 30})`)
+        .attr("transform", "translate(100, 570)")
         .call(d3.axisBottom(xScale)
             .tickFormat(d => {
                 const day = String(d.getDate()).padStart(2, '0');
@@ -424,7 +347,7 @@ function drawFraChart() {
             })
             .ticks(d3.timeMonth.every(1)))
         .selectAll("text")
-        .style("font-size", window.innerWidth <= 768 ? "8px" : "10px")
+        .style("font-size", "10px")
         .style("font-family", "'Roboto', sans-serif")
         .attr("transform", "translate(0, 0)");
 
@@ -432,7 +355,7 @@ function drawFraChart() {
         .attr("transform", "translate(100, 50)")
         .call(d3.axisLeft(yScale))
         .selectAll("text")
-        .style("font-size", window.innerWidth <= 768 ? "10px" : "14px")
+        .style("font-size", "14px")
         .style("font-family", "'Roboto', sans-serif");
 
     const tooltip = d3.select("#tooltip");
@@ -476,7 +399,7 @@ function drawFraChart() {
             .attr("x1", xPos + 100)
             .attr("x2", xPos + 100)
             .attr("y1", 50)
-            .attr("y2", chartHeight - 50)
+            .attr("y2", 550)
             .attr("class", "rpp-line")
             .on("mouseover", function(event) {
                 tooltip.style("display", "block")
