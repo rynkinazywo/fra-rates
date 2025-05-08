@@ -8,8 +8,6 @@ document.getElementById('current-date').innerHTML = `<strong>Aktualna data:</str
 document.getElementById('last-update').innerHTML = `Ostatnia aktualizacja: ${getCurrentDate()}`;
 
 const upcomingMeetings = {
-    "2025-05-06": "upcoming",
-    "2025-05-07": "upcoming",
     "2025-06-03": "upcoming",
     "2025-06-04": "upcoming",
     "2025-07-01": "upcoming",
