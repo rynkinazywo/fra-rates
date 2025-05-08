@@ -293,7 +293,6 @@ function generateProbabilityTable(fraRates, referenceRate) {
 function drawFraChart() {
     const today = new Date();
     const rppMeetings = [
-        new Date("2025-05-07"),
         new Date("2025-06-04"),
         new Date("2025-07-02"),
         new Date("2025-09-03"),
