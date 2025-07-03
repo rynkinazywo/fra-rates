@@ -8,10 +8,6 @@ document.getElementById('current-date').innerHTML = `<strong>Aktualna data:</str
 document.getElementById('last-update').innerHTML = `Ostatnia aktualizacja: ${getCurrentDate()}`;
 
 const upcomingMeetings = {
-    "2025-06-03": "upcoming",
-    "2025-06-04": "upcoming",
-    "2025-07-01": "upcoming",
-    "2025-07-02": "upcoming",
     "2025-09-02": "upcoming",
     "2025-09-03": "upcoming",
     "2025-10-07": "upcoming",
@@ -291,8 +287,6 @@ function generateProbabilityTable(fraRates, referenceRate) {
 function drawFraChart() {
     const today = new Date();
     const rppMeetings = [
-        new Date("2025-06-04"),
-        new Date("2025-07-02"),
         new Date("2025-09-03"),
         new Date("2025-10-08"),
         new Date("2025-11-05"),
